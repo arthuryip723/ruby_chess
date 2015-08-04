@@ -74,7 +74,7 @@ class Board
     # comments
     grid.each_with_index do |row, idx1|
       row.each_index do |idx2|
-        color = idx1 >= SIZE / 2 ? :blue : :red
+        color = idx1 >= SIZE / 2 ? Game::COLORS[0] : Game::COLORS[1]
         class_symbol = LAYOUT[idx1][idx2]
         grid[idx1][idx2] = class_symbol ?
           class_symbol.new(color, [idx1, idx2], self) : nil
@@ -82,6 +82,8 @@ class Board
     end
   end
 
-  def valid_move(pos, color)
+end
+
+if __FILE__ == $PROGRAM_NAME
 
 end
