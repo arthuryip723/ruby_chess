@@ -8,7 +8,7 @@ class Pawn < Piece
 
   def moves
     # [[1,0], [1,1], [1,-1]]
-    dir = (color == Board.COLORS[0] ? -1 : 1)
+    dir = (color == Game::COLORS[0] ? -1 : 1)
     result = []
     [[dir,1], [dir,-1]].each do |step|
       new_pos = Piece.apply_step(pos, step)

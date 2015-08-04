@@ -32,9 +32,10 @@ class Board
 
   def move(start, end_pos)
     piece = self[start]
-    self[end_pos] == piece
+    # p piece.moves
+    self[end_pos] = piece
     piece.pos = end_pos
-    self[start] == nil
+    self[start] = nil
   end
 
   def self.on_board?(pos)
@@ -66,7 +67,7 @@ class Board
   def display
     puts '  '+(0...SIZE).to_a.join(' ')
     @grid.each_with_index do |row, idx|
-      puts idx.to_s+' '+row.map{|el| el.nil? ? '_' : el.to_s}.join(' ')
+      puts idx.to_s+' '+row.map{|el| el.nil? ? '-' : el.to_s}.join(' ')
     end
   end
 
@@ -80,6 +81,14 @@ class Board
           class_symbol.new(color, [idx1, idx2], self) : nil
       end
     end
+  end
+
+  def over?
+    false
+  end
+
+  def in_check?(color)
+    
   end
 
 end
