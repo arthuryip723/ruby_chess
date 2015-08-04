@@ -12,6 +12,12 @@ class Knight < SteppingPiece
     [ 2,  1]
   ]
 
-  def initialize
+  def initialize(color, pos, board)
+    super(color, pos, board)
   end
+
+  def to_s
+    'N'.colorize(color)
+  end
+
 end
