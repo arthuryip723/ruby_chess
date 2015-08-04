@@ -1,6 +1,8 @@
 require_relative 'slidingpiece'
 
 class Bishop < SlidingPiece
+  MOVES_DIAGONALLY = true
+  MOVES_HORZ_AND_VERT = false
   def initialize(color, pos, board)
     super(color, pos, board)
   end
@@ -8,4 +10,7 @@ class Bishop < SlidingPiece
   def to_s
     'B'.colorize(color)
   end
+
+  
+
 end

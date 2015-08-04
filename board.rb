@@ -82,4 +82,6 @@ class Board
     end
   end
 
+  def valid_move(pos, color)
+
 end
