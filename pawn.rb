@@ -30,6 +30,8 @@ class Pawn < Piece
   end
 
   def pos=(value)
+    # p "Changing position"
+    # p value
     @pos = value
     @initial_pos = false
   end

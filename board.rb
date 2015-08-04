@@ -48,11 +48,11 @@ class Board
   end
 
   def not_occupied_by_self(positions, color)
-    positions.select{ self[pos].nil? || self[pos].color != color }
+    positions.select{ |pos| self[pos].nil? || self[pos].color != color }
   end
 
   def on_board_and_not_occupied(positions, color)
-    not_occupied_by_self(select_on_board(positions), color)
+    not_occupied_by_self(Board.select_on_board(positions), color)
   end
 
   def [](pos)
@@ -68,8 +68,10 @@ class Board
   def display
     puts '  '+(0...SIZE).to_a.join(' ')
     @grid.each_with_index do |row, idx|
-      puts idx.to_s+' '+row.map{|el| el.nil? ? '-' : el.to_s}.join(' ')
+      puts idx.to_s+' '+row.map{|el| el.nil? ? '-' : el.to_s}.join(' ') + ' ' + idx.to_s
     end
+    puts '  '+(0...SIZE).to_a.join(' ')
+
   end
 
   def populate_board
@@ -85,8 +87,17 @@ class Board
     end
   end
 
+  def checkmate?(color)
+    # in_check?(color)
+    own_pieces.none? { |piece| piece.has_valid_moves? }
+  end
+
   def over?
-    false
+    # false
+
+  end
+
+  def winner
   end
 
   def in_check?(color)
@@ -104,6 +115,12 @@ class Board
   def opponent_pieces(color)
     result = []
     grid.flatten.each { |cell| result << cell if cell && cell.color != color}
+    result
+  end
+
+  def own_pieces(color)
+    result = []
+    grid.flatten.each { |cell| result << cell if cell && cell.color == color}
     result
   end
 

@@ -10,4 +10,8 @@ class Rook < SlidingPiece
   def to_s
     'R'.colorize(color)
   end
+
+  def move_dirs
+    [[-1,0], [0,-1], [1,0], [0,1]]
+  end
 end

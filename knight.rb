@@ -14,6 +14,7 @@ class Knight < SteppingPiece
 
   def initialize(color, pos, board)
     super(color, pos, board)
+    @delta = Knight::DELTA
   end
 
   def to_s

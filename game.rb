@@ -16,12 +16,12 @@ class Game
   end
 
   def play
-    # system('clear')
+    system('clear')
     board.display
     until board.over?
 
       play_turn
-      # system('clear')
+      system('clear')
       board.display
       # switch_player
     end
@@ -30,9 +30,26 @@ class Game
   end
 
   def play_turn
-    puts "#{current_player.color}'s turn"
+    puts "#{current_player.color}'s turn".colorize(current_player.color)
     start_pos = current_player.get_start_pos
+    piece = board[start_pos]
+    until piece.has_valid_moves?
+      puts "You can't move that piece.".colorize(current_player.color)
+      start_pos = current_player.get_start_pos
+      piece = board[start_pos]
+      # p piece.pos
+    end
+    # p piece
+    # p piece.pos
+    # p piece.valid_moves
+    # p piece.pos
     end_pos = current_player.get_end_pos
+    until piece.valid_moves.include?(end_pos)
+      # p end_pos
+      puts "You can't move there.".colorize(current_player.color)
+      end_pos = current_player.get_end_pos
+    end
+
     board.move(start_pos, end_pos)
     switch_player
   end
@@ -51,12 +68,12 @@ class Player
   end
 
   def get_start_pos
-    puts 'Enter the position of the piece you want to move, e.g. "2,2"'
+    puts 'Enter the position of the piece you want to move, e.g. "2,2"'.colorize(color)
     gets.split(',').map(&:chomp).map(&:to_i)
   end
 
   def get_end_pos
-    puts 'Enter the destination position, e.g. "2,2"'
+    puts 'Enter the destination position, e.g. "2,2"'.colorize(color)
     gets.split(',').map(&:chomp).map(&:to_i)
   end
 
