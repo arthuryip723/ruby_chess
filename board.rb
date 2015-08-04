@@ -5,6 +5,7 @@ require_relative 'bishop'
 require_relative 'queen'
 require_relative 'king'
 require_relative 'pawn'
+require_relative 'game'
 
 class Board
   SIZE = 8
@@ -20,11 +21,11 @@ class Board
     [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
   ]
 
-  attr_reader :grid
+  attr_accessor :grid
 
-  def initialize
+  def initialize(grid = nil)
     @grid = Array.new(SIZE) { Array.new(SIZE) }
-    populate_board
+    grid.nil? ? populate_board : @grid = grid
   end
 
   def in_check?(color)
@@ -77,6 +78,7 @@ class Board
       row.each_index do |idx2|
         color = idx1 >= SIZE / 2 ? Game::COLORS[0] : Game::COLORS[1]
         class_symbol = LAYOUT[idx1][idx2]
+
         grid[idx1][idx2] = class_symbol ?
           class_symbol.new(color, [idx1, idx2], self) : nil
       end
@@ -88,7 +90,36 @@ class Board
   end
 
   def in_check?(color)
-    
+    king = king(color)
+    opponent_pieces(color).any? do |piece|
+      piece.moves.include?(king.pos)
+    end
+  end
+
+  def king(color)
+    grid.flatten.select {|piece| !piece.nil? && piece.is_a?(King) &&
+      piece.color == color }.first
+  end
+
+  def opponent_pieces(color)
+    result = []
+    grid.flatten.each { |cell| result << cell if cell && cell.color != color}
+    result
+  end
+
+  def deep_dup
+    board = self.dup
+    new_grid = Array.new(SIZE) { Array.new(SIZE) }
+    grid.each_with_index do |row, idx1|
+      row.each_with_index do |piece, idx2|
+        new_grid[idx1][idx2] = grid[idx1][idx2].deep_dup(board) unless grid[idx1][idx2].nil?
+        # new_grid[idx1][idx2].board = board
+      end
+    end
+    board.grid = new_grid
+    board
+
+    # Board.new(new_grid)
   end
 
 end
