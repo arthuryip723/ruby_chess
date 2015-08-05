@@ -92,17 +92,7 @@ class Board
     puts '  '+(0...SIZE).to_a.map { |num| LETTER_MAP[num] }.join(' ')
   end
 
-  def populate_board
-    grid.each_with_index do |row, idx1|
-      row.each_index do |idx2|
-        color = idx1 >= SIZE / 2 ? Game::COLORS[0] : Game::COLORS[1]
-        class_symbol = LAYOUT[idx1][idx2]
 
-        grid[idx1][idx2] = class_symbol ?
-          class_symbol.new(color, [idx1, idx2], self) : nil
-      end
-    end
-  end
 
   def checkmate?(color)
     own_pieces(color).none? { |piece| piece.has_valid_moves? }
@@ -145,6 +135,23 @@ class Board
     new_board
   end
 
+
+
   protected
   attr_writer :grid
+
+  private
+
+  def populate_board
+    grid.each_with_index do |row, idx1|
+      row.each_index do |idx2|
+        color = idx1 >= SIZE / 2 ? Game::COLORS[0] : Game::COLORS[1]
+        class_symbol = LAYOUT[idx1][idx2]
+
+        grid[idx1][idx2] = class_symbol ?
+          class_symbol.new(color, [idx1, idx2], self) : nil
+      end
+    end
+  end
+  
 end

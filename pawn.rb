@@ -33,9 +33,7 @@ class Pawn < Piece
   end
 
   def to_s
-    # 'P'.colorize(color)
     "\u265F".colorize(color)
-    #"\u265F".encode('utf-8').colorize(color)
   end
 
   private
