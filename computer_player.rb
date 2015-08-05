@@ -11,10 +11,13 @@ class ComputerPlayer
 
 
   def get_move(board)
-    # first take highest value optimal move (safe move that takes piece)
-    # then take any safe move if optimal moves is empty
-    # then highest value of capturable moves if no safe moves
-    # then any random move if no capturable moves
+    #order of move choices:
+
+    # try to escape if there is a piece in danger
+    # take highest value optimal move (safe move that takes piece)
+    # take any safe move if optimal moves is empty
+    # highest value of capturable moves if no safe moves
+    # any random move if no capturable moves
 
     escaping_moves = escaping_moves(board)
     safe_moves = safe_moves(board)
@@ -23,7 +26,6 @@ class ComputerPlayer
     optimal_moves = safe_moves & capture_moves
 
     if !escaping_moves.empty?
-      # return escaping_moves.sample
       escaping_moves.each{ |move| return move if optimal_moves.include?(move)}
       return escaping_moves.sample
     end
@@ -35,7 +37,7 @@ class ComputerPlayer
 
   def all_possible_moves(board)
     possible_moves = []
-    available_pieces = board.own_pieces(color).select!(&:has_valid_moves?)
+    available_pieces = board.own_pieces(color).select(&:has_valid_moves?)
     available_pieces.each do |piece|
       piece.valid_moves.each do |move|
         possible_moves << [piece.pos, move]
@@ -65,14 +67,9 @@ class ComputerPlayer
 
   def safe_moves(board)
     result = []
-    # temp_board = board.deep_dup
-    # p all_possible_moves(temp_board)
     all_possible_moves(board).each do |move|
-      # p move
       temp_board = board.deep_dup
       temp_board.move(move.first, move.last)
-      # opponents_capturable_destinations
-      # p board.opponent_moves(color)
       result << move if !temp_board.opponent_moves(color).include?(move.last)
     end
     result

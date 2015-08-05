@@ -6,7 +6,7 @@ require_relative 'computer_player'
 class Game
   COLORS = [:blue, :red]
 
-  CLEAR = false
+  CLEAR = true #for testing
 
   attr_reader :board, :player1, :player2
   attr_accessor :current_player
@@ -28,6 +28,7 @@ class Game
       system('clear') if CLEAR
       board.display
     end
+    show_last_move
     puts "#{current_player.color} is in checkmate!".colorize(current_player.color)
     switch_player
     puts "#{current_player.color} wins!".colorize(current_player.color)
