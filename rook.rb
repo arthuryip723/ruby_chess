@@ -8,9 +8,14 @@ class Rook < SlidingPiece
   def to_s
     "\u265C".colorize(color)
   end
-  
+
   protected
   def move_dirs
     [[-1,0], [0,-1], [1,0], [0,1]]
   end
+
+  def value #Reinfeld value
+    5
+  end
+
 end

@@ -108,6 +108,12 @@ class Board
     new_board
   end
 
+  def own_pieces(color)
+    result = []
+    grid.flatten.each { |cell| result << cell if cell && cell.color == color}
+    result
+  end
+
   protected
   attr_writer :grid
 
@@ -129,12 +135,6 @@ class Board
   def opponent_pieces(color)
     result = []
     grid.flatten.each { |cell| result << cell if cell && cell.color != color}
-    result
-  end
-
-  def own_pieces(color)
-    result = []
-    grid.flatten.each { |cell| result << cell if cell && cell.color == color}
     result
   end
 

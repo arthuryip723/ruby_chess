@@ -21,4 +21,8 @@ class Knight < SteppingPiece
     "\u265E".colorize(color)
   end
 
+  def value #Reinfeld value
+    3
+  end
+
 end

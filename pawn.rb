@@ -36,6 +36,10 @@ class Pawn < Piece
     result
   end
 
+  def value #Reinfeld value
+    1
+  end
+
   private
   attr_reader :moved
 end

@@ -20,4 +20,9 @@ class King < SteppingPiece
   def to_s
    "\u265A".colorize(color)
   end
+
+  def value #Reinfeld value
+    10 #any valid value, we will never actually take king
+  end
+
 end

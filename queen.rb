@@ -9,8 +9,13 @@ class Queen < SlidingPiece
     "\u265B".colorize(color)
   end
 
+  def value #Reinfeld value
+    9
+  end
+
   protected
   def move_dirs
     [[-1,0], [0,-1], [1,0], [0,1]] + [[-1,-1], [-1,1], [1,-1], [1,1]]
   end
+
 end
