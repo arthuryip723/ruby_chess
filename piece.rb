@@ -42,6 +42,7 @@ class Piece
   end
 
   def has_valid_moves?
+    # p valid_moves
     valid_moves.length > 0
   end
 

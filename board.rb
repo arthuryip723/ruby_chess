@@ -21,6 +21,28 @@ class Board
     [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
   ]
 
+  LETTER_MAP = {
+    0 => 'a',
+    1 => 'b',
+    2 => 'c',
+    3 => 'd',
+    4 => 'e',
+    5 => 'f',
+    6 => 'g',
+    7 => 'h'
+  }
+
+  NUMBER_MAP = {
+    0 => '1',
+    1 => '2',
+    2 => '3',
+    3 => '4',
+    4 => '5',
+    5 => '6',
+    6 => '7',
+    7 => '8'
+  }
+
   attr_accessor :grid
 
   def initialize(grid = nil)
@@ -66,12 +88,17 @@ class Board
   end
 
   def display
-    puts '  '+(0...SIZE).to_a.join(' ')
-    @grid.each_with_index do |row, idx|
-      puts idx.to_s+' '+row.map{|el| el.nil? ? '-' : el.to_s}.join(' ') + ' ' + idx.to_s
-    end
-    puts '  '+(0...SIZE).to_a.join(' ')
+    # puts '  '+(0...SIZE).to_a.join(' ')
+    # @grid.each_with_index do |row, idx|
+    #   puts idx.to_s+' '+row.map{|el| el.nil? ? '-' : el.to_s}.join(' ') + ' ' + idx.to_s
+    # end
+    # puts '  '+(0...SIZE).to_a.join(' ')
 
+    puts '  '+(0...SIZE).to_a.map { |num| LETTER_MAP[num] }.join(' ')
+    @grid.each_with_index do |row, idx|
+      puts NUMBER_MAP[idx]+' '+row.map{|el| el.nil? ? '-' : el.to_s}.join(' ') + ' ' + NUMBER_MAP[idx]
+    end
+    puts '  '+(0...SIZE).to_a.map { |num| LETTER_MAP[num] }.join(' ')
   end
 
   def populate_board
@@ -89,7 +116,7 @@ class Board
 
   def checkmate?(color)
     # in_check?(color)
-    own_pieces.none? { |piece| piece.has_valid_moves? }
+    own_pieces(color).none? { |piece| piece.has_valid_moves? }
   end
 
   def over?
