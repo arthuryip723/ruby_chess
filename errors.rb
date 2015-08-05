@@ -13,3 +13,6 @@ end
 
 class NotValidMoveError < StandardError
 end
+
+class OpponentPieceError < StandardError
+end

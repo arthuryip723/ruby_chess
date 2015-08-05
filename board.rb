@@ -76,12 +76,36 @@ class Board
     @grid[x][y] = value
   end
 
+  # def display
+  #   puts '  '+(0...SIZE).to_a.map { |num| LETTER_MAP[num] }.join(' ')
+  #   @grid.each_with_index do |row, idx|
+  #     puts NUMBER_MAP[idx]+' '+
+  #     row.map{|el| el.nil? ? ' ' : el.to_s}.map{ |el| el.colorize(:background=>:cyan)}
+  #     .join(' ') + ' ' + NUMBER_MAP[idx]
+  #   end
+  #   puts '  '+(0...SIZE).to_a.map { |num| LETTER_MAP[num] }.join(' ')
+  # end
+
   def display
-    puts '  '+(0...SIZE).to_a.map { |num| LETTER_MAP[num] }.join(' ')
-    @grid.each_with_index do |row, idx|
-      puts NUMBER_MAP[idx]+' '+row.map{|el| el.nil? ? '-' : el.to_s}.join(' ') + ' ' + NUMBER_MAP[idx]
+    show_letters
+    @grid.each_with_index do |row, idx1|
+      print NUMBER_MAP[idx1]
+      row.each_with_index do |el, idx2|
+        str = el.nil? ? '   ' : " #{el.to_s} "
+        str = str.colorize(:background => :light_white) if (idx1+idx2).odd?
+        print str
+      end
+      print NUMBER_MAP[idx1]
+      print "\n"
     end
-    puts '  '+(0...SIZE).to_a.map { |num| LETTER_MAP[num] }.join(' ')
+    show_letters
+
+  end
+
+  def show_letters
+    print ' '
+    SIZE.times {|i| print " #{LETTER_MAP[i]} "}
+    puts
   end
 
   def checkmate?(color)
