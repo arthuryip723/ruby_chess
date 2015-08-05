@@ -1,5 +1,5 @@
 
-class Player
+class HumanPlayer
   LETTER_MAP = {
     'a' => 0,
     'b' => 1,

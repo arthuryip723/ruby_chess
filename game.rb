@@ -1,5 +1,5 @@
 require_relative 'board'
-require_relative 'player'
+require_relative 'human_player'
 require_relative 'errors'
 
 class Game
@@ -74,8 +74,8 @@ end
 
 
 if __FILE__ == $PROGRAM_NAME
-  p1 = Player.new("Arthur")
-  p2 = Player.new("Ari")
+  p1 = HumanPlayer.new("Arthur")
+  p2 = HumanPlayer.new("Ari")
   game = Game.new(p1, p2)
   game.play
 end
