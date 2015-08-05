@@ -6,6 +6,28 @@ require_relative 'computer_player'
 class Game
   COLORS = [:blue, :red]
 
+  LETTER_MAP = {
+    0 => 'a',
+    1 => 'b',
+    2 => 'c',
+    3 => 'd',
+    4 => 'e',
+    5 => 'f',
+    6 => 'g',
+    7 => 'h'
+  }
+
+  NUMBER_MAP = {
+    0 => '1',
+    1 => '2',
+    2 => '3',
+    3 => '4',
+    4 => '5',
+    5 => '6',
+    6 => '7',
+    7 => '8'
+  }
+
   attr_reader :board, :player1, :player2
   attr_accessor :current_player
   def initialize(player1, player2)
@@ -14,6 +36,7 @@ class Game
     player2.color = COLORS[1]
     @current_player = player2
     @board = Board.new
+    @last_turn = nil
   end
 
   def play
@@ -34,40 +57,26 @@ class Game
   private
 
   def play_turn
+    show_last_move
     puts "#{current_player.color}'s turn".colorize(current_player.color)
     # start_pos, piece = get_valid_start_pos
     # end_pos = get_valid_end_pos(start_pos, piece)
     start_pos, end_pos = current_player.get_move(board)
-
+    @last_turn = [start_pos, end_pos]
     board.move(start_pos, end_pos)
   end
 
-  # def get_valid_start_pos
-  #   begin
-  #     start_pos = current_player.get_start_pos
-  #     piece = board[start_pos]
-  #     raise NilPieceError if piece.nil?
-  #     raise NoValidMovesError if !piece.has_valid_moves?
-  #   rescue NilPieceError
-  #     puts "That position is empty"
-  #     retry
-  #   rescue NoValidMovesError
-  #     puts "No valid moves for this piece!"
-  #     retry
-  #   end
-  #   [start_pos, piece]
-  # end
-  #
-  # def get_valid_end_pos(start_pos, piece)
-  #   begin
-  #     end_pos = current_player.get_end_pos
-  #     raise NotValidMoveError if !piece.valid_moves.include?(end_pos)
-  #   rescue NotValidMoveError
-  #     puts "You can't move there."
-  #     retry
-  #   end
-  #   end_pos
-  # end
+  def show_last_move
+    return if @last_turn.nil?
+    start_pos_letter = Board::LETTER_MAP[ @last_turn[0][1] ]
+    start_pos_number = Board::NUMBER_MAP[ @last_turn[0][0] ]
+    end_pos_letter = Board::LETTER_MAP[ @last_turn[1][1] ]
+    end_pos_number = Board::NUMBER_MAP[ @last_turn[1][0] ]
+
+    start_pos = "#{start_pos_letter}#{start_pos_number}"
+    end_pos = "#{end_pos_letter}#{end_pos_number}"
+    puts "Last player's turn: #{start_pos} to #{end_pos}"
+  end
 
   def switch_player
     self.current_player = current_player == player1 ? player2 : player1

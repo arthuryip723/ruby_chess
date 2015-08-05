@@ -64,11 +64,11 @@ class HumanPlayer
   end
 
   def get_start_pos
-    ask_for_input('Enter the position of the piece you want to move, e.g. "2,2"')
+    ask_for_input('Enter the position of the piece you want to move, e.g. "f2"')
   end
 
   def get_end_pos
-    ask_for_input('Enter the destination position, e.g. "2,2"')
+    ask_for_input('Enter the destination position, e.g. "f4"')
   end
 
   def ask_for_input(message)

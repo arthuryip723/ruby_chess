@@ -1,23 +1,18 @@
 
 
 class ComputerPlayer
-  
+
   attr_reader :name
   attr_accessor :color, :board
   def initialize(name)
     @name = name
   end
 
-  # def get_start_pos
-  # end
-  #
-  # def get_end_pos
-  # end
+
 
   def get_move(board)
-    # should return sth like [[1, 2], [3, 2]]
-    capture_moves = capture_moves(board)
-    return capture_moves.sample if !capture_moves.empty?
+    best_capture_move = best_capture_move(board)
+    return best_capture_move if best_capture_move
     random_move(board)
   end
 
@@ -40,8 +35,11 @@ class ComputerPlayer
   end
 
   def random_move(board)
-    # moves.sample
     all_possible_moves(board).sample
+  end
+
+  def best_capture_move(board)
+    capture_moves(board).sort_by{|move| board[move.last].value }.last
   end
 
 
