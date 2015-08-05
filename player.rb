@@ -36,6 +36,7 @@ class Player
     ask_for_input('Enter the destination position, e.g. "2,2"')
   end
 
+  private
   def ask_for_input(message)
     begin
       puts message.colorize(color)
@@ -50,7 +51,8 @@ class Player
       puts "Invalid content!"
       retry
     end
-    [NUMBER_MAP[input.last], LETTER_MAP[input.first]]
+
+    [ NUMBER_MAP[input.last], LETTER_MAP[input.first] ]
   end
 
 end

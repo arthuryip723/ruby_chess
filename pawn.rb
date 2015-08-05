@@ -6,6 +6,15 @@ class Pawn < Piece
     @moved = false
   end
 
+  def pos=(value)
+    @pos = value
+    @moved = true
+  end
+
+  def to_s
+    "\u265F".colorize(color)
+  end
+
   def moves
     dir = (color == Game::COLORS[0] ? -1 : 1)
     result = []
@@ -25,15 +34,6 @@ class Pawn < Piece
     end
 
     result
-  end
-
-  def pos=(value)
-    @pos = value
-    @moved = true
-  end
-
-  def to_s
-    "\u265F".colorize(color)
   end
 
   private

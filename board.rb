@@ -62,15 +62,7 @@ class Board
     pos.all?{ |coord| coord.between?(0, SIZE - 1) }
   end
 
-  def self.select_on_board(positions)
-    positions.select{ |pos| Board.on_board?(pos)}
-  end
-
-  def not_occupied_by_self(positions, color)
-    positions.select{ |pos| self[pos].nil? || self[pos].color != color }
-  end
-
-  def on_board_and_not_occupied(positions, color)
+  def on_board_and_not_occupied_by_self(positions, color)
     not_occupied_by_self(Board.select_on_board(positions), color)
   end
 
@@ -92,8 +84,6 @@ class Board
     puts '  '+(0...SIZE).to_a.map { |num| LETTER_MAP[num] }.join(' ')
   end
 
-
-
   def checkmate?(color)
     own_pieces(color).none? { |piece| piece.has_valid_moves? }
   end
@@ -103,23 +93,6 @@ class Board
     opponent_pieces(color).any? do |piece|
       piece.moves.include?(king.pos)
     end
-  end
-
-  def king(color)
-    grid.flatten.select {|piece| !piece.nil? && piece.is_a?(King) &&
-      piece.color == color }.first
-  end
-
-  def opponent_pieces(color)
-    result = []
-    grid.flatten.each { |cell| result << cell if cell && cell.color != color}
-    result
-  end
-
-  def own_pieces(color)
-    result = []
-    grid.flatten.each { |cell| result << cell if cell && cell.color == color}
-    result
   end
 
   def deep_dup
@@ -135,12 +108,35 @@ class Board
     new_board
   end
 
-
-
   protected
   attr_writer :grid
 
   private
+
+  def king(color)
+    grid.flatten.select {|piece| !piece.nil? && piece.is_a?(King) &&
+      piece.color == color }.first
+  end
+
+  def self.select_on_board(positions)
+    positions.select{ |pos| Board.on_board?(pos)}
+  end
+
+  def not_occupied_by_self(positions, color)
+    positions.select{ |pos| self[pos].nil? || self[pos].color != color }
+  end
+
+  def opponent_pieces(color)
+    result = []
+    grid.flatten.each { |cell| result << cell if cell && cell.color != color}
+    result
+  end
+
+  def own_pieces(color)
+    result = []
+    grid.flatten.each { |cell| result << cell if cell && cell.color == color}
+    result
+  end
 
   def populate_board
     grid.each_with_index do |row, idx1|
@@ -153,5 +149,5 @@ class Board
       end
     end
   end
-  
+
 end

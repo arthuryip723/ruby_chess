@@ -7,7 +7,7 @@ class SteppingPiece < Piece
   end
 
   def moves
-    board.on_board_and_not_occupied(apply_delta_to_pos, color)
+    board.on_board_and_not_occupied_by_self(apply_delta_to_pos, color)
   end
 
   def apply_delta_to_pos

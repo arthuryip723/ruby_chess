@@ -8,7 +8,8 @@ class Bishop < SlidingPiece
   def to_s
     "\u265D".colorize(color)
   end
-
+  
+  protected
   def move_dirs
     [[-1,-1], [-1,1], [1,-1], [1,1]]
   end
