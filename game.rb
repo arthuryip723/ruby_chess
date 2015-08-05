@@ -1,6 +1,6 @@
 require_relative 'board'
 require_relative 'human_player'
-require_relative 'errors'
+# require_relative 'errors'
 
 class Game
   COLORS = [:blue, :red]
@@ -34,38 +34,39 @@ class Game
 
   def play_turn
     puts "#{current_player.color}'s turn".colorize(current_player.color)
-    start_pos, piece = get_valid_start_pos
-    end_pos = get_valid_end_pos(start_pos, piece)
+    # start_pos, piece = get_valid_start_pos
+    # end_pos = get_valid_end_pos(start_pos, piece)
+    start_pos, end_pos = current_player.get_move(board)
 
     board.move(start_pos, end_pos)
   end
 
-  def get_valid_start_pos
-    begin
-      start_pos = current_player.get_start_pos
-      piece = board[start_pos]
-      raise NilPieceError if piece.nil?
-      raise NoValidMovesError if !piece.has_valid_moves?
-    rescue NilPieceError
-      puts "That position is empty"
-      retry
-    rescue NoValidMovesError
-      puts "No valid moves for this piece!"
-      retry
-    end
-    [start_pos, piece]
-  end
-
-  def get_valid_end_pos(start_pos, piece)
-    begin
-      end_pos = current_player.get_end_pos
-      raise NotValidMoveError if !piece.valid_moves.include?(end_pos)
-    rescue NotValidMoveError
-      puts "You can't move there."
-      retry
-    end
-    end_pos
-  end
+  # def get_valid_start_pos
+  #   begin
+  #     start_pos = current_player.get_start_pos
+  #     piece = board[start_pos]
+  #     raise NilPieceError if piece.nil?
+  #     raise NoValidMovesError if !piece.has_valid_moves?
+  #   rescue NilPieceError
+  #     puts "That position is empty"
+  #     retry
+  #   rescue NoValidMovesError
+  #     puts "No valid moves for this piece!"
+  #     retry
+  #   end
+  #   [start_pos, piece]
+  # end
+  #
+  # def get_valid_end_pos(start_pos, piece)
+  #   begin
+  #     end_pos = current_player.get_end_pos
+  #     raise NotValidMoveError if !piece.valid_moves.include?(end_pos)
+  #   rescue NotValidMoveError
+  #     puts "You can't move there."
+  #     retry
+  #   end
+  #   end_pos
+  # end
 
   def switch_player
     self.current_player = current_player == player1 ? player2 : player1

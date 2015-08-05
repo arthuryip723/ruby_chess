@@ -1,3 +1,4 @@
+require_relative 'errors'
 
 class HumanPlayer
   LETTER_MAP = {
@@ -28,6 +29,40 @@ class HumanPlayer
     @name = name
   end
 
+  def get_move(board)
+    start_pos, piece = get_valid_start_pos(board)
+    end_pos = get_valid_end_pos(start_pos, piece)
+    [start_pos, end_pos]
+  end
+
+  private
+  def get_valid_start_pos(board)
+    begin
+      start_pos = get_start_pos
+      piece = board[start_pos]
+      raise NilPieceError if piece.nil?
+      raise NoValidMovesError if !piece.has_valid_moves?
+    rescue NilPieceError
+      puts "That position is empty"
+      retry
+    rescue NoValidMovesError
+      puts "No valid moves for this piece!"
+      retry
+    end
+    [start_pos, piece]
+  end
+
+  def get_valid_end_pos(start_pos, piece)
+    begin
+      end_pos = get_end_pos
+      raise NotValidMoveError if !piece.valid_moves.include?(end_pos)
+    rescue NotValidMoveError
+      puts "You can't move there."
+      retry
+    end
+    end_pos
+  end
+
   def get_start_pos
     ask_for_input('Enter the position of the piece you want to move, e.g. "2,2"')
   end
@@ -36,7 +71,6 @@ class HumanPlayer
     ask_for_input('Enter the destination position, e.g. "2,2"')
   end
 
-  private
   def ask_for_input(message)
     begin
       puts message.colorize(color)
