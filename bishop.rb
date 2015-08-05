@@ -9,13 +9,15 @@ class Bishop < SlidingPiece
     "\u265D".colorize(color)
   end
 
+  def value #Reinfeld value
+    3
+  end
+
   protected
   def move_dirs
     [[-1,-1], [-1,1], [1,-1], [1,1]]
   end
 
-  def value #Reinfeld value
-    3
-  end
+
 
 end

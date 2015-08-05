@@ -114,6 +114,20 @@ class Board
     result
   end
 
+  def opponent_pieces(color)
+    result = []
+    grid.flatten.each { |cell| result << cell if cell && cell.color != color}
+    result
+  end
+
+  def opponent_moves(color)
+    result = []
+    opponent_pieces(color).each do |piece|
+      result.concat(piece.valid_moves)
+    end
+    result.uniq
+  end
+
   protected
   attr_writer :grid
 
@@ -132,11 +146,6 @@ class Board
     positions.select{ |pos| self[pos].nil? || self[pos].color != color }
   end
 
-  def opponent_pieces(color)
-    result = []
-    grid.flatten.each { |cell| result << cell if cell && cell.color != color}
-    result
-  end
 
   def populate_board
     grid.each_with_index do |row, idx1|

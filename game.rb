@@ -6,27 +6,7 @@ require_relative 'computer_player'
 class Game
   COLORS = [:blue, :red]
 
-  LETTER_MAP = {
-    0 => 'a',
-    1 => 'b',
-    2 => 'c',
-    3 => 'd',
-    4 => 'e',
-    5 => 'f',
-    6 => 'g',
-    7 => 'h'
-  }
-
-  NUMBER_MAP = {
-    0 => '1',
-    1 => '2',
-    2 => '3',
-    3 => '4',
-    4 => '5',
-    5 => '6',
-    6 => '7',
-    7 => '8'
-  }
+  CLEAR = false
 
   attr_reader :board, :player1, :player2
   attr_accessor :current_player
@@ -40,12 +20,12 @@ class Game
   end
 
   def play
-    system('clear')
+    system('clear') if CLEAR
     board.display
     until board.checkmate?(current_player.color)
       play_turn
       switch_player
-      system('clear')
+      system('clear') if CLEAR
       board.display
     end
     puts "#{current_player.color} is in checkmate!".colorize(current_player.color)
@@ -59,8 +39,6 @@ class Game
   def play_turn
     show_last_move
     puts "#{current_player.color}'s turn".colorize(current_player.color)
-    # start_pos, piece = get_valid_start_pos
-    # end_pos = get_valid_end_pos(start_pos, piece)
     start_pos, end_pos = current_player.get_move(board)
     @last_turn = [start_pos, end_pos]
     board.move(start_pos, end_pos)

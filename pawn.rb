@@ -36,6 +36,10 @@ class Pawn < Piece
     result
   end
 
+  def method_name
+
+  end
+
   def value #Reinfeld value
     1
   end
