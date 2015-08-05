@@ -7,13 +7,11 @@ class SteppingPiece < Piece
   end
 
   def moves
-    # Piece.select_on_board(DELTA.map{ |el| [el[0] + pos[0], el[1] + pos[1]] })
-    #   .select{ board[pos].nil? || board[pos].color != color }
     board.on_board_and_not_occupied(apply_delta_to_pos, color)
   end
 
   def apply_delta_to_pos
-    delta.map{ |el| [el[0] + pos[0], el[1] + pos[1]] }
+    delta.map{ |el| Piece.apply_step(pos, el) }
   end
 
 end

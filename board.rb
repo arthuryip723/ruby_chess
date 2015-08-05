@@ -43,14 +43,11 @@ class Board
     7 => '8'
   }
 
-  attr_accessor :grid
+  attr_reader :grid
 
   def initialize(grid = nil)
     @grid = Array.new(SIZE) { Array.new(SIZE) }
     grid.nil? ? populate_board : @grid = grid
-  end
-
-  def in_check?(color)
   end
 
   def move(start, end_pos)
@@ -88,12 +85,6 @@ class Board
   end
 
   def display
-    # puts '  '+(0...SIZE).to_a.join(' ')
-    # @grid.each_with_index do |row, idx|
-    #   puts idx.to_s+' '+row.map{|el| el.nil? ? '-' : el.to_s}.join(' ') + ' ' + idx.to_s
-    # end
-    # puts '  '+(0...SIZE).to_a.join(' ')
-
     puts '  '+(0...SIZE).to_a.map { |num| LETTER_MAP[num] }.join(' ')
     @grid.each_with_index do |row, idx|
       puts NUMBER_MAP[idx]+' '+row.map{|el| el.nil? ? '-' : el.to_s}.join(' ') + ' ' + NUMBER_MAP[idx]
@@ -102,7 +93,6 @@ class Board
   end
 
   def populate_board
-    # comments
     grid.each_with_index do |row, idx1|
       row.each_index do |idx2|
         color = idx1 >= SIZE / 2 ? Game::COLORS[0] : Game::COLORS[1]
@@ -115,16 +105,7 @@ class Board
   end
 
   def checkmate?(color)
-    # in_check?(color)
     own_pieces(color).none? { |piece| piece.has_valid_moves? }
-  end
-
-  def over?
-    # false
-
-  end
-
-  def winner
   end
 
   def in_check?(color)
@@ -152,22 +133,18 @@ class Board
   end
 
   def deep_dup
-    board = self.dup
+    new_board = self.dup
     new_grid = Array.new(SIZE) { Array.new(SIZE) }
     grid.each_with_index do |row, idx1|
       row.each_with_index do |piece, idx2|
-        new_grid[idx1][idx2] = grid[idx1][idx2].deep_dup(board) unless grid[idx1][idx2].nil?
-        # new_grid[idx1][idx2].board = board
+        new_grid[idx1][idx2] = grid[idx1][idx2].deep_dup(new_board) unless
+          grid[idx1][idx2].nil?
       end
     end
-    board.grid = new_grid
-    board
-
-    # Board.new(new_grid)
+    new_board.grid = new_grid
+    new_board
   end
 
-end
-
-if __FILE__ == $PROGRAM_NAME
-
+  protected
+  attr_writer :grid
 end
