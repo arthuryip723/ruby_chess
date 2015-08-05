@@ -45,9 +45,9 @@ class Board
 
   attr_reader :grid
 
-  def initialize(grid = nil)
+  def initialize()
     @grid = Array.new(SIZE) { Array.new(SIZE) }
-    grid.nil? ? populate_board : @grid = grid
+    populate_board
   end
 
   def move(start, end_pos)

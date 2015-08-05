@@ -28,8 +28,7 @@ class Piece
   end
 
   def valid_moves
-    valids = moves.reject { |move| move_into_check?(move)}
-    valids
+    moves.reject { |move| move_into_check?(move)}
   end
 
   def has_valid_moves?

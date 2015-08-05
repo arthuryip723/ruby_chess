@@ -18,7 +18,7 @@ class Knight < SteppingPiece
   end
 
   def to_s
-    'N'.colorize(color)
+    "\u265E".colorize(color)
   end
 
 end

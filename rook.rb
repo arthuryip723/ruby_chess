@@ -6,7 +6,7 @@ class Rook < SlidingPiece
   end
 
   def to_s
-    'R'.colorize(color)
+    "\u265C".colorize(color)
   end
 
   def move_dirs

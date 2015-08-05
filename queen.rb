@@ -6,7 +6,7 @@ class Queen < SlidingPiece
   end
 
   def to_s
-    'Q'.colorize(color)
+    "\u265B".colorize(color)
   end
 
   def move_dirs

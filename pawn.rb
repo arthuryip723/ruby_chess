@@ -3,7 +3,7 @@ require_relative 'piece'
 class Pawn < Piece
   def initialize(color, pos, board)
     super(color, pos, board)
-    @initial_pos = true
+    @moved = false
   end
 
   def moves
@@ -17,7 +17,7 @@ class Pawn < Piece
     end
 
     straight_steps = [[dir, 0]]
-    straight_steps << [2*dir, 0] if initial_pos #Can move 2 steps forward only on first step
+    straight_steps << [2*dir, 0] if !moved #Can move 2 steps forward only on first step
 
     straight_steps.each do |step|
       new_pos = Piece.apply_step(pos, step)
@@ -29,13 +29,15 @@ class Pawn < Piece
 
   def pos=(value)
     @pos = value
-    @initial_pos = false
+    @moved = true
   end
 
   def to_s
-    'P'.colorize(color)
+    # 'P'.colorize(color)
+    "\u265F".colorize(color)
+    #"\u265F".encode('utf-8').colorize(color)
   end
 
   private
-  attr_reader :initial_pos
+  attr_reader :moved
 end

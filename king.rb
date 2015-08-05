@@ -17,7 +17,7 @@ class King < SteppingPiece
     @delta = DELTA
   end
 
- def to_s
-   'K'.colorize(color)
- end
+  def to_s
+   "\u265A".colorize(color)
+  end
 end

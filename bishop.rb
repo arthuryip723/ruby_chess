@@ -6,7 +6,7 @@ class Bishop < SlidingPiece
   end
 
   def to_s
-    'B'.colorize(color)
+    "\u265D".colorize(color)
   end
 
   def move_dirs
