@@ -14,7 +14,7 @@ class King < SteppingPiece
 
   def initialize(color, pos, board)
     super(color, pos, board)
-    @delta = King::DELTA
+    @delta = DELTA
   end
 
  def to_s

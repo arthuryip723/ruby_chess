@@ -6,9 +6,6 @@ class Game
   attr_reader :board, :player1, :player2
   attr_accessor :current_player
   def initialize(player1, player2)
-    # @current_player = color1
-    # @color1 = color1
-    # @color2 = color2
     @player1, @player2 = player1, player2
     player1.color = COLORS[0]
     player2.color = COLORS[1]
