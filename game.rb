@@ -20,14 +20,11 @@ class Game
     system('clear')
     board.display
     until board.checkmate?(current_player.color)
-
       play_turn
+      switch_player
       system('clear')
       board.display
-      # switch_player
     end
-
-    # puts "Someone wins! Fix this later!"
     puts "#{current_player.color} is in checkmate!".colorize(current_player.color)
     switch_player
     puts "#{current_player.color} wins!".colorize(current_player.color)
@@ -36,27 +33,37 @@ class Game
 
   def play_turn
     puts "#{current_player.color}'s turn".colorize(current_player.color)
-    start_pos = current_player.get_start_pos
-    piece = board[start_pos]
-    until piece.has_valid_moves?
-      puts "You can't move that piece.".colorize(current_player.color)
-      start_pos = current_player.get_start_pos
-      piece = board[start_pos]
-      # p piece.pos
-    end
-    # p piece
-    # p piece.pos
-    # p piece.valid_moves
-    # p piece.pos
-    end_pos = current_player.get_end_pos
-    until piece.valid_moves.include?(end_pos)
-      # p end_pos
-      puts "You can't move there.".colorize(current_player.color)
-      end_pos = current_player.get_end_pos
-    end
+    start_pos, piece = get_valid_start_pos
+    end_pos = get_valid_end_pos(start_pos, piece)
 
     board.move(start_pos, end_pos)
-    switch_player
+  end
+
+  def get_valid_start_pos
+    begin
+      start_pos = current_player.get_start_pos
+      piece = board[start_pos]
+      raise NilPieceError if piece.nil?
+      raise NoValidMovesError if !piece.has_valid_moves?
+    rescue NilPieceError
+      puts "Nil cell!"
+      retry
+    rescue NoValidMovesError
+      puts "No valid moves for this piece!"
+      retry
+    end
+    [start_pos, piece]
+  end
+
+  def get_valid_end_pos(start_pos, piece)
+    begin
+      end_pos = current_player.get_end_pos
+      raise NotValidMoveError if !piece.valid_moves.include?(end_pos)
+    rescue NotValidMoveError
+      puts "You can't move there."
+      retry
+    end
+    end_pos
   end
 
   def switch_player
@@ -94,23 +101,48 @@ class Player
   end
 
   def get_start_pos
-    # puts 'Enter the position of the piece you want to move, e.g. "2,2"'.colorize(color)
-    puts 'Enter the position of the piece you want to move, e.g. "f2"'.colorize(color)
-    # gets.split(',').map(&:chomp).map(&:to_i)
-    input = gets.chomp.split('')
-    [NUMBER_MAP[input.last], LETTER_MAP[input.first]]
+    ask_for_input('Enter the position of the piece you want to move, e.g. "2,2"')
   end
 
   def get_end_pos
-    # puts 'Enter the destination position, e.g. "2,2"'.colorize(color)
-    puts 'Enter the destination position, e.g. "f4"'.colorize(color)
-    # gets.split(',').map(&:chomp).map(&:to_i)
-    input = gets.chomp.split('')
+    ask_for_input('Enter the destination position, e.g. "2,2"')
+  end
+
+  def ask_for_input(message)
+    begin
+      # puts 'Enter the destination position, e.g. "f4"'.colorize(color)
+      puts message.colorize(color)
+      input = gets.chomp
+      # raise "invalid length" if input.length != 2
+      raise InputLengthError.new if input.length != 2
+      input = input.split('')
+      # raise 'wrong input' if LETTER_MAP[input.first].nil? || NUMBER_MAP[input.last].nil?
+      raise InputContentError.new if LETTER_MAP[input.first].nil? || NUMBER_MAP[input.last].nil?
+    rescue InputLengthError
+      puts "Invalid length!"
+      retry
+    rescue InputContentError
+      puts "Invalid content!"
+      retry
+    end
     [NUMBER_MAP[input.last], LETTER_MAP[input.first]]
   end
 
+end
 
+class InputLengthError < StandardError
+end
 
+class InputContentError < StandardError
+end
+
+class NilPieceError < StandardError
+end
+
+class NoValidMovesError < StandardError
+end
+
+class NotValidMoveError < StandardError
 end
 
 if __FILE__ == $PROGRAM_NAME
