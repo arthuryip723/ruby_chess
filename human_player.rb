@@ -41,8 +41,9 @@ class HumanPlayer
       start_pos = get_start_pos
       piece = board[start_pos]
       raise NilPieceError if piece.nil?
-      raise NoValidMovesError if !piece.has_valid_moves?
       raise OpponentPieceError if piece.color != color
+      raise NoValidMovesError if !piece.has_valid_moves?
+
     rescue NilPieceError
       puts "That position is empty"
       retry
