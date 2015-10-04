@@ -3,7 +3,8 @@ A chess_game developed in Ruby
 
 How to run:
 1, Install Ruby on your local machine
-2, Run the following command: ruby game.rb
+2, You may need to install gem colorize by typing "gem install colorize"
+3, Run the following command: ruby game.rb
 
 ToDos:
 1, Promotion
