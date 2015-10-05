@@ -66,8 +66,17 @@ end
 
 if __FILE__ == $PROGRAM_NAME
   # p1 = HumanPlayer.new("Arthur")
-  p1 = ComputerPlayer.new("Arthur")
-  p2 = HumanPlayer.new("Ari")
+  begin
+  # p1 = ComputerPlayer.new("Arthur")
+    puts "Two players or computer mode? (p/c)"
+    mode = gets.chomp()
+  end until mode == 'c' || mode == 'p'
+  if mode == 'c'
+    p1 = ComputerPlayer.new("Computer")
+  else
+    p1 = HumanPlayer.new("User2")
+  end
+  p2 = HumanPlayer.new("User1")
   game = Game.new(p1, p2)
   game.play
 end

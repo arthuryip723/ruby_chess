@@ -6,6 +6,10 @@ A chess_game developed in Ruby
   * You may need to install gem colorize by typing `gem install colorize`
   * Run the following command: `ruby game.rb`
 
+### Features:
+  * You can choose two-man mode or computer mode
+  * Some AI strategies implemented
+
 ### ToDos:
   * Promotion
   * Castling
